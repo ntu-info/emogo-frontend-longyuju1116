@@ -65,13 +65,31 @@ export default function SettingsScreen() {
 
       // 轉成 CSV 檔案
       // CSV 標題行
-      const headers = ['id', 'sentiment', 'videoUri', 'latitude', 'longitude', 'timestamp'];
+      const headers = ['id', 'sentiment', 'videoUri', 'latitude', 'longitude', 'timestamp', 'datetime'];
       const csvHeader = headers.join(',');
+      
+      // 將時間戳記轉換為日期時間字串的函數
+      const formatTimestamp = (timestamp) => {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      };
       
       // CSV 資料行
       const csvRows = data.map(row => {
         return headers.map(header => {
-          const value = row[header];
+          let value = row[header];
+          
+          // 如果是 datetime 欄位，轉換時間戳記為日期時間
+          if (header === 'datetime') {
+            value = formatTimestamp(row.timestamp);
+          }
+          
           // 如果值包含逗號或換行，用雙引號包起來
           if (value && (String(value).includes(',') || String(value).includes('\n'))) {
             return `"${String(value).replace(/"/g, '""')}"`;

@@ -254,9 +254,16 @@ export default function HomeScreen() {
     let savedVideoUri = null;
     if (videoData?.uri) {
       try {
-        // 產生檔名: timestamp_sentiment.mp4
-        const timestamp = Date.now();
-        const fileName = `${timestamp}_sentiment${sentiment}.mp4`;
+        // 產生檔名: YYYYMMDD_HHMMSS_sentiment.mp4
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const dateTimeString = `${year}${month}${day}_${hours}${minutes}${seconds}`;
+        const fileName = `${dateTimeString}_sentiment${sentiment}.mp4`;
         
         // 建立 app 專用的影片資料夾 (使用新的 API)
         const videosDir = FileSystem.documentDirectory + 'videos/';
