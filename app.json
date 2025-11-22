@@ -13,10 +13,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "7918e76f-59e9-45c4-aae4-c99cec64cfac"
+        "projectId": "d1f7c9a6-b6dc-42b5-a3df-014544d3fe77"
       }
     },
-    "owner": "spiketren",
     "ios": {
       "bundleIdentifier": "com.spiketren.exporoutermwe",
       "infoPlist": {
