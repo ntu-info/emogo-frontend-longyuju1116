@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Alert, Platform } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, Alert, Platform, Image } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { CameraView, useCameraPermissions, Camera } from 'expo-camera';
 import * as Location from 'expo-location';
@@ -7,11 +7,6 @@ import * as Notifications from 'expo-notifications';
 import * as FileSystem from 'expo-file-system/legacy';
 import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
-import Sentiment1 from '../../material/1.svg';
-import Sentiment2 from '../../material/2.svg';
-import Sentiment3 from '../../material/3.svg';
-import Sentiment4 from '../../material/4.svg';
-import Sentiment5 from '../../material/5.svg';
 
 // ----------------------------------------------------
 // I. 資料庫操作 (SQLite) - 使用新的 expo-sqlite API (SDK 51+)
@@ -345,14 +340,13 @@ export default function HomeScreen() {
       {/* 心情選單 */}
       <View style={styles.sentimentContainer}>
         {[1, 2, 3, 4, 5].map((score) => {
-          const SentimentComponents = {
-            1: Sentiment1,
-            2: Sentiment2,
-            3: Sentiment3,
-            4: Sentiment4,
-            5: Sentiment5,
+          const sentimentImages = {
+            1: require('../../material/1.jpg'),
+            2: require('../../material/2.jpg'),
+            3: require('../../material/3.jpg'),
+            4: require('../../material/4.jpg'),
+            5: require('../../material/5.jpg'),
           };
-          const SentimentIcon = SentimentComponents[score];
           
           return (
             <TouchableOpacity
@@ -367,7 +361,11 @@ export default function HomeScreen() {
               ]}
               disabled={isRecording}
             >
-              <SentimentIcon width="100%" height="100%" />
+              <Image 
+                source={sentimentImages[score]} 
+                style={styles.sentimentImage}
+                resizeMode="cover"
+              />
             </TouchableOpacity>
           );
         })}
