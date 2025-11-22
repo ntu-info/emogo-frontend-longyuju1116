@@ -3,14 +3,14 @@ import { Stack } from "expo-router";
 export default function RootLayout() {
   return (
     <>
-      {/* Root stack controls screen transitions for the whole app */}
-      <Stack>
-        {/* The (tabs) group is one Stack screen with its own tab navigator */}
+      <Stack screenOptions={{ headerShown: false }}>
+        {/* 主要的 Tabs 分頁 (包含紀錄與匯出功能) */}
         <Stack.Screen
           name="(tabs)"
-          options={{ headerShown: false }}
+          options={{}}
         />
-        {/* This screen is pushed on top of tabs when you navigate to /details */}
+        
+        {/* 保留 Details 頁面設定 (如果有用到) */}
         <Stack.Screen
           name="details"
           options={{ title: "Details" }}
