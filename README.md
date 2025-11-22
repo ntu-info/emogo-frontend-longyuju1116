@@ -14,9 +14,9 @@ The app includes the following key features:
     * Exports recorded clips as **MP4** video files.
 
 * **🔗 App URI:**
->  https://expo.dev/accounts/longyuju1116/projects/expo-router-mwe/builds/dc543d8c-7b97-4bb4-8436-3997972b672e 
+>  https://expo.dev/accounts/longyuju1116/projects/expo-router-mwe/builds/77a72b7a-0776-4bbf-8462-ba6874e64de6
 
-* Only for Android.
+***Only for Android.***
 
 ## 🛠️ How to Run Locally (or you are a iphone user haha.)
 
