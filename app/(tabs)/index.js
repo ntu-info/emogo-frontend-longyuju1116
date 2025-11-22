@@ -101,7 +101,7 @@ Notifications.setNotificationHandler({
 });
 
 /**
- * 設定每天 3 次的提醒通知 (使用簡單的每 8 小時重複觸發)
+ * 設定每天固定時間的提醒通知 (09:00, 12:00, 15:00, 18:00)
  */
 const scheduleDailyNotifications = async () => {
   // 1. 清除所有現有的通知
@@ -121,21 +121,31 @@ const scheduleDailyNotifications = async () => {
     return;
   }
 
-  // 3. 設定重複排程 (為了簡化，使用每 8 小時觸發一次)
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "經驗抽樣提醒！",
-      body: "請立即紀錄您的心情與環境。",
-      sound: true,
-      data: { time: new Date().toISOString() },
-    },
-    trigger: {
-      seconds: 8 * 60 * 60, // 8 小時 (8 * 60分鐘 * 60秒)
-      repeats: true,
-    },
-  });
+  // 3. 設定每天固定時間的通知 (09:00, 12:00, 15:00, 18:00)
+  const notificationTimes = [
+    { hour: 9, minute: 0 },   // 09:00
+    { hour: 12, minute: 0 },  // 12:00
+    { hour: 15, minute: 0 },  // 15:00
+    { hour: 18, minute: 0 },  // 18:00
+  ];
 
-  console.log('Notifications scheduled (repeating every 8 hours).');
+  for (const time of notificationTimes) {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "經驗抽樣提醒！",
+        body: "請立即紀錄您的心情與環境。",
+        sound: true,
+        data: { time: `${time.hour}:${String(time.minute).padStart(2, '0')}` },
+      },
+      trigger: {
+        hour: time.hour,
+        minute: time.minute,
+        repeats: true,
+      },
+    });
+  }
+
+  console.log('Notifications scheduled at 09:00, 12:00, 15:00, 18:00 daily.');
 };
 
 

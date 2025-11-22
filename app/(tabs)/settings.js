@@ -63,11 +63,27 @@ export default function SettingsScreen() {
         return;
       }
 
-      // 轉成 JSON 檔案
-      const jsonString = JSON.stringify(data, null, 2);
-      const fileUri = FileSystem.documentDirectory + 'esm_data.json';
+      // 轉成 CSV 檔案
+      // CSV 標題行
+      const headers = ['id', 'sentiment', 'videoUri', 'latitude', 'longitude', 'timestamp'];
+      const csvHeader = headers.join(',');
+      
+      // CSV 資料行
+      const csvRows = data.map(row => {
+        return headers.map(header => {
+          const value = row[header];
+          // 如果值包含逗號或換行，用雙引號包起來
+          if (value && (String(value).includes(',') || String(value).includes('\n'))) {
+            return `"${String(value).replace(/"/g, '""')}"`;
+          }
+          return value ?? '';
+        }).join(',');
+      });
+      
+      const csvString = [csvHeader, ...csvRows].join('\n');
+      const fileUri = FileSystem.documentDirectory + 'esm_data.csv';
 
-      await FileSystem.writeAsStringAsync(fileUri, jsonString);
+      await FileSystem.writeAsStringAsync(fileUri, csvString);
       
       // 呼叫手機的原生分享選單
       if (await Sharing.isAvailableAsync()) {
@@ -219,11 +235,11 @@ export default function SettingsScreen() {
       </View>
 
       <View style={styles.buttonGroup}>
-        <Button title="匯出資料 (JSON)" onPress={withHapticFeedback(exportData)} />
+        <Button title="匯出資料 (CSV)" onPress={withHapticFeedback(exportData)} />
         <View style={{ height: 20 }} />
-        <Button title="匯出影片 (mp4)" onPress={withHapticFeedback(exportVideos)} color="#007AFF" />
+        <Button title="匯出影片 (MP4)" onPress={withHapticFeedback(exportVideos)} color="#007AFF" />
         <View style={{ height: 20 }} />
-        <Button title="清除所有資料 (重置)" onPress={withHapticFeedback(clearData)} color="red" />
+        <Button title="清除所有資料 (RESET)" onPress={withHapticFeedback(clearData)} color="red" />
       </View>
     </View>
   );
